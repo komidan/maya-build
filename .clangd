@@ -1,5 +1,7 @@
 CompileFlags:
   Add:
     - -I../include
-    - -L../lib/
     - -std=c99
+  Remove:
+    - -x
+    - objective-c++

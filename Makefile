@@ -8,8 +8,13 @@ LIBDIR   := lib
 BUILDDIR := build
 BINDIR   := bin
 
+# LIBRARIES (space-separated)
+LIBS     := libtomlc17.so.1.0
+
 CFLAGS  += -g -Wall -Wextra -Wpedantic -std=c99 -I$(INCDIR)
-LDFLAGS += -L$(LIBDIR)
+LDFLAGS += -L$(LIBDIR) -Wl,-rpath,'$$ORIGIN/../lib'
+
+LDLIBS := $(addprefix $(LIBDIR)/,$(LIBS))
 
 # FILES
 SOURCES := $(wildcard $(SRCDIR)/*.c)
@@ -17,7 +22,8 @@ OBJECTS := $(SOURCES:$(SRCDIR)/%.c=$(BUILDDIR)/%.o)
 
 # LINK
 $(BINDIR)/$(TARGET): $(OBJECTS)
-	$(CC) $(OBJECTS) $(LDFLAGS) -o $@
+	@mkdir -p $(BINDIR)
+	$(CC) $(OBJECTS) $(LDFLAGS) $(LDLIBS) -o $@
 
 # COMPILE
 $(BUILDDIR)/%.o: $(SRCDIR)/%.c
@@ -29,5 +35,3 @@ clean:
 	rm -rf $(BUILDDIR) $(BINDIR)
 
 .PHONY: clean
-
-# The irony of using Make...

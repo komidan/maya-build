@@ -6,15 +6,14 @@ version = "0.1.0"
 [build]
 standard = "c99"
 compiler = "gcc"
-warnings = ["all", "extra", "pedantic"] # -Wextra, -Wall-, -Wpedantic
+warnings = ["all", "extra", "pedantic"]
+
+[linker]
+flags = []
+libs = []
 
 [build.debug]
 cflags = ["-g", "-O0", "-DDEBUG"]
 
 [build.release]
 cflags = ["-O2", "-DNDEBUG"]
-
-[[target]]
-name = "maya"
-type = "executable"
-source = "src"
